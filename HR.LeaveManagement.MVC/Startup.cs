@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -29,11 +30,11 @@ namespace HR.LeaveManagement.MVC
         {
             services.AddHttpClient<IClient, Client>(cl => cl.BaseAddress = new Uri("https://localhost:44327"));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<ILeaveTypeService, LeaveTypeService>();
 
-            ////services.AddScoped<ILeaveTypeService, LeaveTypeService>();
             ////services.AddScoped<ILeaveAllocationService, LeaveAllocationService>();
             ////services.AddScoped<ILeaveRequestService, LeaveRequestService>();
-            
+
             services.AddSingleton<ILocalStorageService, LocalStorageService>();
             services.AddControllersWithViews();
         }

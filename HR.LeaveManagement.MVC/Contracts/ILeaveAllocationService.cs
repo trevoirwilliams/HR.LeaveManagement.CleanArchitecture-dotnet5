@@ -11,7 +11,7 @@ namespace HR.LeaveManagement.MVC.Contracts
         Task<List<ViewLeaveAllocationsVM>> GetLeaveAllocations();
         Task<List<LeaveAllocationVM>> GetLeaveAllocationDetails(int id);
         Task CreateLeaveAllocation(CreateLeaveAllocationVM leaveAllocation);
-        Task UpdateLeaveAllocation(EditLeaveAllocationVM leaveAllocation);
+        Task UpdateLeaveAllocation(UpdateLeaveAllocationVM leaveAllocation);
         Task DeleteLeaveAllocation(int id);
     }
 }

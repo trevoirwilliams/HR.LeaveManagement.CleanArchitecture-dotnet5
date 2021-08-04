@@ -26,7 +26,7 @@ namespace HR.LeaveManagement.MVC.Models
         public List<LeaveTypeVM> LeaveTypes { get; set; }
     }
 
-    public class EditLeaveAllocationVM
+    public class UpdateLeaveAllocationVM
     {
         public int Id { get; set; }
 

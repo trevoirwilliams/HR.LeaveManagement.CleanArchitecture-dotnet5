@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.MVC.Services
 {
-    public class LeaveTypeService : BaseHttpService//, ILeaveTypeService
+    public class LeaveTypeService : BaseHttpService, ILeaveTypeService
     {
         private readonly ILocalStorageService _localStorageService;
         private readonly IMapper _mapper;
@@ -22,23 +22,44 @@ namespace HR.LeaveManagement.MVC.Services
             this._httpclient = httpclient;
         }
 
-        public async Task<Response<CreateLeaveTypeDto>> CreateLeaveType(LeaveTypeVM leaveType)
+        public async Task<Response<int>> CreateLeaveType(CreateLeaveTypeVM leaveType)
         {
             try
             {
+                var response = new Response<int>();
                 CreateLeaveTypeDto createLeaveType = _mapper.Map<CreateLeaveTypeDto>(leaveType);
-                await _client.LeaveTypesPOSTAsync(createLeaveType);
-                return new Response<CreateLeaveTypeDto> { Success = true };
+                var apiResponse = await _client.LeaveTypesPOSTAsync(createLeaveType);
+                if (apiResponse.Success)
+                {
+                    response.Data = apiResponse.Id;
+                    response.Success = true;
+                }
+                else
+                {
+                    foreach (var error in apiResponse.Errors)
+                    {
+                        response.ValidationErrors += error + Environment.NewLine;
+                    }
+                }
+                return response;
             }
             catch (ApiException ex)
             {
-                return ConvertApiExceptions<CreateLeaveTypeDto>(ex);
+                return ConvertApiExceptions<int>(ex);
             }
         }
 
-        public Task DeleteLeaveType(LeaveTypeVM leaveType)
+        public async Task<Response<int>> DeleteLeaveType(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _client.LeaveTypesDELETEAsync(id);
+                return new Response<int>() { Success = true };
+            }
+            catch (ApiException ex)
+            {
+                return ConvertApiExceptions<int>(ex);
+            }
         }
 
         public async Task<LeaveTypeVM> GetLeaveTypeDetails(int id)
@@ -53,9 +74,19 @@ namespace HR.LeaveManagement.MVC.Services
             return _mapper.Map<List<LeaveTypeVM>>(leaveTypes);
         }
 
-        public Task UpdateLeaveType(LeaveTypeVM leaveType)
+        public async Task<Response<int>> UpdateLeaveType(int id, LeaveTypeVM leaveType)
         {
-            throw new NotImplementedException();
+            try
+            {
+                LeaveTypeDto leaveTypeDto = _mapper.Map<LeaveTypeDto>(leaveType);
+                await _client.LeaveTypesPUTAsync(id.ToString(), leaveTypeDto);
+                return new Response<int>() { Success = true };
+            }
+            catch (ApiException ex)
+            {
+                return ConvertApiExceptions<int>(ex);
+            }
         }
+
     }
 }

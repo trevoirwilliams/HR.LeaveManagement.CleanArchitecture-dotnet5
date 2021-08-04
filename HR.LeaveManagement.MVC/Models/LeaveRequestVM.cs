@@ -7,22 +7,9 @@ using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.MVC.Models
 {
-    public class LeaveRequestVM
+    public class LeaveRequestVM : CreateLeaveRequestVM
     {
         public int Id { get; set; }
-
-        [Display(Name = "Start Date")]
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime StartDate { get; set; }
-
-        [Display(Name = "End Date")]
-        [Required]
-        [DataType(DataType.Date) ]
-        public DateTime EndDate { get; set; }
-
-        public LeaveTypeVM LeaveType { get; set; }
-        public int LeaveTypeId { get; set; }
 
         [Display(Name = "Date Requested")]
         public DateTime DateRequested { get; set; }
@@ -34,8 +21,21 @@ namespace HR.LeaveManagement.MVC.Models
         public bool? Approved { get; set; }
 
         public bool Cancelled { get; set; }
-        
-        [Display(Name = "Employee Comments")]
+    }
+
+    public class CreateLeaveRequestVM
+    {
+
+        [Display(Name = "Start Date")]
+        [Required]
+        public string StartDate { get; set; }
+        [Display(Name = "End Date")]
+        [Required]
+        public string EndDate { get; set; }
+        public IEnumerable<SelectListItem> LeaveTypes { get; set; }
+        [Display(Name = "Leave Type")]
+        public int LeaveTypeId { get; set; }
+        [Display(Name = "Comments")]
         [MaxLength(300)]
         public string RequestComments { get; set; }
     }
@@ -53,22 +53,6 @@ namespace HR.LeaveManagement.MVC.Models
         public List<LeaveRequestVM> LeaveRequests { get; set; }
     }
 
-    public class CreateLeaveRequestVM
-    {
-        
-        [Display(Name = "Start Date")]
-        [Required]
-        public string StartDate { get; set; }
-        [Display(Name = "End Date")]
-        [Required]
-        public string EndDate { get; set; }
-        public IEnumerable<SelectListItem> LeaveTypes { get; set; }
-        [Display(Name = "Leave Type")]
-        public int LeaveTypeId { get; set; }
-        [Display(Name = "Comments")]
-        [MaxLength(300)]
-        public string RequestComments { get; set; }
-    }
 
     public class EmployeeLeaveRequestViewVM
     {
