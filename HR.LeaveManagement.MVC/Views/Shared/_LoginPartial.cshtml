@@ -1,0 +1,33 @@
+﻿
+    <ul class="navbar-nav">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li class="nav-item">
+                <a class="nav-link " href="#" title="Manage">
+                    @User.Identity.Name!
+                </a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" method="post" asp-action="Logout" asp-controller="Users" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link ">
+                        Logout
+                    </button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+
+                <a class="nav-link" asp-action="Register" asp-controller="Users">
+                    Register
+                </a>
+            </li>
+            <li class="nav-item">
+
+                <a class="nav-link" asp-action="Login" asp-controller="Users">
+                    Login
+                </a>
+            </li>
+        }
+    </ul>
