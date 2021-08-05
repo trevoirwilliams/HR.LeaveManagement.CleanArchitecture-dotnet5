@@ -37,9 +37,13 @@
                 @Html.DisplayFor(modelItem => item.DefaultDays)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id  }) |
+                <form asp-action="Allocate" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn btn-link" onclick="return confirm('Are you sure you want to allocate to all employees?')">
+                        Allocate
+                    </button>
+                </form>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                 <form asp-action="Delete" asp-route-id="@item.Id" method="post">
                     <button type="submit" class="btn btn-link" onclick="return confirm('Are you sure you want to delete this record?')">
                         Delete

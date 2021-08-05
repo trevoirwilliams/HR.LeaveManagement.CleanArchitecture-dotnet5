@@ -15,7 +15,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using HR.LeaveManagement.Application.Contracts.Infrastructure;
 using HR.LeaveManagement.Application.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Commands
 {
@@ -24,19 +23,16 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Command
         private readonly ILeaveRequestRepository _leaveRequestRepository;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly IEmailSender _emailSender;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
         public CreateLeaveRequestCommandHandler(
             ILeaveRequestRepository leaveRequestRepository,
             ILeaveTypeRepository leaveTypeRepository,
             IEmailSender emailSender,
-            IHttpContextAccessor httpContextAccessor,
             IMapper mapper)
         {
             _leaveTypeRepository = leaveTypeRepository;
             _emailSender = emailSender;
-            this._httpContextAccessor = httpContextAccessor;
             _leaveRequestRepository = leaveRequestRepository;
             _mapper = mapper;
         }
@@ -46,7 +42,6 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Command
             var response = new BaseCommandResponse();
             var validator = new CreateLeaveRequestDtoValidator(_leaveTypeRepository);
             var validationResult = await validator.ValidateAsync(request.LeaveRequestDto);
-            var user = _httpContextAccessor.HttpContext.User.Identity.Name;
 
             if (validationResult.IsValid == false)
             {

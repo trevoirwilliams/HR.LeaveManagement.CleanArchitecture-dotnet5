@@ -1,4 +1,5 @@
 ﻿using HR.LeaveManagement.MVC.Models;
+using HR.LeaveManagement.MVC.Services.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,6 @@ namespace HR.LeaveManagement.MVC.Contracts
 {
     public interface ILeaveAllocationService
     {
-        Task<List<ViewLeaveAllocationsVM>> GetLeaveAllocations();
-        Task<List<LeaveAllocationVM>> GetLeaveAllocationDetails(int id);
-        Task CreateLeaveAllocation(CreateLeaveAllocationVM leaveAllocation);
-        Task UpdateLeaveAllocation(UpdateLeaveAllocationVM leaveAllocation);
-        Task DeleteLeaveAllocation(int id);
+        Task<Response<int>> CreateLeaveAllocations(int leaveTypeId);
     }
 }

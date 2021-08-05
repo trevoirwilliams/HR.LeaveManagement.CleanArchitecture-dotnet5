@@ -43,8 +43,8 @@ namespace HR.LeaveManagement.MVC
             services.AddHttpClient<IClient, Client>(cl => cl.BaseAddress = new Uri("https://localhost:44327"));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ILeaveTypeService, LeaveTypeService>();
+            services.AddScoped<ILeaveAllocationService, LeaveAllocationService>();
 
-            ////services.AddScoped<ILeaveAllocationService, LeaveAllocationService>();
             ////services.AddScoped<ILeaveRequestService, LeaveRequestService>();
 
             services.AddSingleton<ILocalStorageService, LocalStorageService>();

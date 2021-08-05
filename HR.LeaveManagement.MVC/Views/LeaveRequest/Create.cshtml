@@ -1,0 +1,64 @@
+﻿@model CreateLeaveRequestVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LeaveTypeId" class="control-label"></label>
+                @Html.DropDownListFor(q => q.LeaveTypeId, new SelectList(Model.LeaveTypes, "Value", "Text"), "Select Leave Type", new { @class = "form-control" })
+                <span asp-validation-for="LeaveTypeId" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="StartDate" class="control-label"></label>
+                        <input asp-for="StartDate" class="form-control datepicker" /> 
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="EndDate" class="control-label"></label>
+                        <input asp-for="EndDate" class="form-control datepicker" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="RequestComments" class="control-label"></label>
+                <textarea asp-for="RequestComments" class="form-control"></textarea>
+                <span asp-validation-for="RequestComments" class="text-danger"></span>
+            </div>
+            
+
+
+            <div class="form-group">
+                <input type="submit" value="Request Leave" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary btn-block" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFomat: "yy-mm-dd"
+            });
+        });
+    </script>
+}

@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HR.LeaveManagement.Application.Responses;
 using System.Linq;
+using HR.LeaveManagement.Application.Contracts.Identity;
 
 namespace HR.LeaveManagement.Application.Features.LeaveAllocations.Handlers.Commands
 {
@@ -20,15 +21,18 @@ namespace HR.LeaveManagement.Application.Features.LeaveAllocations.Handlers.Comm
     {
         private readonly ILeaveAllocationRepository _leaveAllocationRepository;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
         public CreateLeaveAllocationCommandHandler(
             ILeaveAllocationRepository leaveAllocationRepository,
             ILeaveTypeRepository leaveTypeRepository,
+            IUserService userService,
             IMapper mapper)
         {
             _leaveAllocationRepository = leaveAllocationRepository;
             _leaveTypeRepository = leaveTypeRepository;
+            this._userService = userService;
             _mapper = mapper;
         }
 
@@ -41,17 +45,34 @@ namespace HR.LeaveManagement.Application.Features.LeaveAllocations.Handlers.Comm
             if (validationResult.IsValid == false)
             {
                 response.Success = false;
-                response.Message = "Creation Failed";
+                response.Message = "Allocations Failed";
                 response.Errors = validationResult.Errors.Select(q => q.ErrorMessage).ToList();
             }
+            else
+            {
+                var leaveType = await _leaveTypeRepository.Get(request.LeaveAllocationDto.LeaveTypeId);
+                var employees = await _userService.GetEmployees();
+                var period = DateTime.Now.Year;
+                var allocations = new List<LeaveAllocation>();
+                foreach (var emp in employees)
+                {
+                    if (await _leaveAllocationRepository.AllocationExists(emp.Id, leaveType.Id, period))
+                        continue;
+                    allocations.Add(new LeaveAllocation
+                    {
+                        EmployeeId = emp.Id,
+                        LeaveTypeId = leaveType.Id,
+                        NumberOfDays = leaveType.DefaultDays,
+                        Period = period
+                    });
+                }
 
-            var leaveAllocation = _mapper.Map<LeaveAllocation>(request.LeaveAllocationDto);
+                await _leaveAllocationRepository.AddAllocations(allocations);
 
-            leaveAllocation = await _leaveAllocationRepository.Add(leaveAllocation);
+                response.Success = true;
+                response.Message = "Allocations Successful";
+            }
 
-            response.Success = true;
-            response.Message = "Creation Successful";
-            response.Id = leaveAllocation.Id;
 
             return response;
         }
