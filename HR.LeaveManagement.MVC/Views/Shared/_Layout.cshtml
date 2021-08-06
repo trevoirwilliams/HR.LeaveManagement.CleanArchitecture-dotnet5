@@ -25,9 +25,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        
+
+
                         @if (User.Identity.IsAuthenticated)
                         {
+                            if (User.IsInRole("Employee"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="LeaveRequests" asp-action="Create">Request Leave</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="LeaveRequests" asp-action="MyLeave">My Leave</a>
+                                </li>
+                            }
                             if (User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item dropdown">
@@ -36,8 +46,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <a class="dropdown-item text-dark" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
-                                        <a class="dropdown-item text-dark" asp-controller="LeaveAllocation" asp-action="Index">Leave Allocations</a>
-                                        <a class="dropdown-item text-dark" asp-controller="LeaveRequest" asp-action="Index">Leave Requests</a>
+                                        <a class="dropdown-item text-dark" asp-controller="LeaveRequests" asp-action="Index">Leave Requests</a>
                                     </div>
                                 </li>
                             }

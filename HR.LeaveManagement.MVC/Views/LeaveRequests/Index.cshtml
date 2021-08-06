@@ -92,7 +92,7 @@
 @foreach (var item in Model.LeaveRequests) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RequestingEmployee.Firstname) @Html.DisplayFor(modelItem => item.RequestingEmployee.Lastname)
+                @Html.DisplayFor(modelItem => item.Employee.Firstname) @Html.DisplayFor(modelItem => item.Employee.Lastname)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)

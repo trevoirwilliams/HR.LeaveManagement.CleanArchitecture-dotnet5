@@ -1,0 +1,89 @@
+﻿@model LeaveRequestVM
+
+@{
+    ViewData["Title"] = "Details";
+    string className;
+    string headingText;
+    if (Model.Approved == null)
+    {
+        className = "warning";
+        headingText = "Pending Approval";
+    }
+    else if (Model.Approved == true)
+    {
+        className = "success";
+        headingText = "Approved";
+    }
+    else
+    {
+        className = "danger";
+        headingText = "Rejected";
+    }
+}
+
+<div class="alert alert-@className" role="alert">
+    <h4 class="alert-heading">@headingText</h4>
+    <p>
+        <strong>Employee name:</strong>  @Model.Employee.Firstname @Model.Employee.Lastname <br />
+    </p>
+    <hr/>
+    <p>
+        Date Requested - @Html.DisplayFor(model => model.DateRequested)
+    </p>
+</div>
+
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LeaveType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LeaveType.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RequestComments)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RequestComments)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.Approved == null)
+    {
+        <form method="post" asp-action="ApproveRequest">
+            <input name="id" type="hidden" value="@Model.Id"/>
+            <input name="approved" type="hidden" value="true"/>
+            <button class="btn btn-success">
+                Approve
+            </button>
+        </form>
+        <form method="post" asp-action="ApproveRequest" asp-route-id="@Model.Id">
+            <input name="id" type="hidden" value="@Model.Id" />
+            <input name="approved" type="hidden" value="false" />
+            <button class="btn btn-danger">
+                Reject
+            </button>
+        </form>
+
+    }
+
+    <a class="btn btn-outline-secondary" asp-action="Index">
+        Back to List
+    </a>
+</div>

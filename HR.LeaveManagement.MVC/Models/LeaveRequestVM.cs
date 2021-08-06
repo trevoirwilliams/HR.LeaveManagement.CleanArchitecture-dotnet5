@@ -21,6 +21,9 @@ namespace HR.LeaveManagement.MVC.Models
         public bool? Approved { get; set; }
 
         public bool Cancelled { get; set; }
+        public LeaveTypeVM LeaveType { get; set; }
+        public EmployeeVM Employee { get; set; }
+
     }
 
     public class CreateLeaveRequestVM
@@ -28,13 +31,18 @@ namespace HR.LeaveManagement.MVC.Models
 
         [Display(Name = "Start Date")]
         [Required]
-        public string StartDate { get; set; }
+        public DateTime StartDate { get; set; }
+
         [Display(Name = "End Date")]
         [Required]
-        public string EndDate { get; set; }
-        public IEnumerable<SelectListItem> LeaveTypes { get; set; }
+        public DateTime EndDate { get; set; }
+
+        public SelectList LeaveTypes { get; set; }
+
         [Display(Name = "Leave Type")]
+        [Required]
         public int LeaveTypeId { get; set; }
+
         [Display(Name = "Comments")]
         [MaxLength(300)]
         public string RequestComments { get; set; }
