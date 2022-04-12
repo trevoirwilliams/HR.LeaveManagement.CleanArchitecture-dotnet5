@@ -1,5 +1,8 @@
 <div class="text-center alert alert-dark">
     <h1 class="display-4">Leave Management System - SOLID and Clean Architecture</h1>
+    <h5>Educational Project to demonstrate Clean Architecture in .NET Core. <br>Full Course: 
+        <a href="https://www.udemy.com/course/aspnet-core-solid-and-clean-architecture-net-5-and-up/?referralCode=64873CEC8BFDA7423006">ASP.NET Core - SOLID and Clean Architecture (.NET 5 and Up) </a>
+    </h5>
 </div>
 <div data-purpose="safely-set-inner-html:description:description">
     <p>
