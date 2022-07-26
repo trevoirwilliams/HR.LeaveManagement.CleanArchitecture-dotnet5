@@ -42,7 +42,7 @@ namespace HR.LeaveManagement.MVC.Middleware
                         JwtSecurityTokenHandler tokenHandler = new();
                         var tokenContent = tokenHandler.ReadJwtToken(token);
                         var expiry = tokenContent.ValidTo;
-                        if (expiry < DateTime.Now)
+                        if (expiry < DateTime.UtcNow)
                         {
                             tokenIsValid = false;
                         }
